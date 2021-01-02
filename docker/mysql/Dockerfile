@@ -1,0 +1,11 @@
+FROM mysql:5.7
+
+RUN apt-get update && apt-get install net-tools -y && apt-get install vim -y
+
+ENV APP_ENV=${APP_ENV}
+ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_DATABASE=${DB_DATABASE}
+ENV MYSQL_USER=${DB_USERNAME}
+ENV MYSQL_PASSWORD=${DB_PASSWORD}
+
+EXPOSE 3306

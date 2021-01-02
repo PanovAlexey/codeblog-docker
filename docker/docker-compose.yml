@@ -1,0 +1,57 @@
+version: "3.1"
+
+services:
+  php-fpm:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    container_name: php-fpm-codeblog
+    environment:
+      - MODE=dev
+      - DB_URL=mysql
+    networks:
+      - backend_network
+    volumes:
+      - ../codeblog.pro/www:/home/codeblog.pro/www
+      - ./php/fpm/php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
+      - ./php/fpm/pool.d/www.conf:/etc/php/7.4/fpm/pool.d/www.conf
+      - ./php/fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+      - ./php/cli/php-ini-overrides.ini:/etc/php/7.4/cli/conf.d/99-overrides.ini
+      - ./php/postfix/main.cf:/etc/postfix/main.cf
+
+  mysql:
+    env_file:
+      - ./www/.env
+    restart: always
+    build:
+      context: .
+      dockerfile: mysql/Dockerfile
+    container_name: mysql-codeblog
+    environment:
+      MODE: '${APP_ENV}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+    tty: true
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+      - ./mysql/data:/data/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - backend_network
+    ports:
+      - 3306:3306
+
+  # not for production
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: icarhelper-mailhog
+    ports:
+      - "8081:8025"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge

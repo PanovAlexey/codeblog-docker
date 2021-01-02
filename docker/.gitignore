@@ -1,0 +1,7 @@
+.idea
+www/
+nginx/config/
+mysql/data/
+mysql/db/
+git-keys/
+

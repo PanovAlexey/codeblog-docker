@@ -21,7 +21,7 @@ services:
 
   mysql:
     env_file:
-      - ./www/.env
+      - ../www/.env
     restart: always
     build:
       context: .

@@ -46,7 +46,7 @@ services:
   # not for production
   mailhog:
     image: mailhog/mailhog:latest
-    container_name: icarhelper-mailhog
+    container_name: codeblog-mailhog
     ports:
       - "8081:8025"
     networks:

@@ -1,32 +1,32 @@
-version: "3.1"
+version: "3.7"
 
 services:
-  php-fpm:
+  codeblog-php-fpm:
     build:
       context: .
       dockerfile: php/Dockerfile
-    container_name: php-fpm-codeblog
+    container_name: codeblog-php-fpm
     environment:
       - MODE=dev
       - DB_URL=mysql
     networks:
       - backend_network
     volumes:
-      - ../codeblog.pro/www:/home/codeblog.pro/www
+      - ../www:/home/codeblog.pro/www
       - ./php/fpm/php-fpm.conf:/etc/php/7.4/fpm/php-fpm.conf
       - ./php/fpm/pool.d/www.conf:/etc/php/7.4/fpm/pool.d/www.conf
       - ./php/fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
       - ./php/cli/php-ini-overrides.ini:/etc/php/7.4/cli/conf.d/99-overrides.ini
       - ./php/postfix/main.cf:/etc/postfix/main.cf
 
-  mysql:
+  codeblog-mysql:
     env_file:
       - ../www/.env
     restart: always
     build:
       context: .
       dockerfile: mysql/Dockerfile
-    container_name: mysql-codeblog
+    container_name: codeblog-mysql
     environment:
       MODE: '${APP_ENV}'
       MYSQL_DATABASE: '${DB_DATABASE}'
@@ -41,14 +41,14 @@ services:
     networks:
       - backend_network
     ports:
-      - 3306:3306
+      - 3307:3306
 
   # not for production
-  mailhog:
+  codeblog-mailhog:
     image: mailhog/mailhog:latest
     container_name: codeblog-mailhog
     ports:
-      - "8081:8025"
+      - "8082:8025"
     networks:
       - backend_network
 

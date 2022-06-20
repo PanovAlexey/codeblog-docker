@@ -28,11 +28,11 @@ services:
       dockerfile: mysql/Dockerfile
     container_name: codeblog-mysql
     environment:
-      MODE: '${APP_ENV}'
-      MYSQL_DATABASE: '${DB_DATABASE}'
-      MYSQL_USER: '${DB_USERNAME}'
-      MYSQL_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MODE: '${APP_ENV:?err}'
+      MYSQL_DATABASE: '${DB_DATABASE:?err}'
+      MYSQL_USER: '${DB_USERNAME:?err}'
+      MYSQL_PASSWORD: '${DB_PASSWORD:?err}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD:?err}'
       MYSQL_ALLOW_EMPTY_PASSWORD: '${MYSQL_ALLOW_EMPTY_PASSWORD:?err}'
       MYSQL_RANDOM_ROOT_PASSWORD: '${MYSQL_RANDOM_ROOT_PASSWORD:?err}'
     tty: true

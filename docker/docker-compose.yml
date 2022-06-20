@@ -56,4 +56,6 @@ services:
 
 networks:
   backend_network:
+    external:
+      name: backend_network
     driver: bridge

@@ -67,6 +67,22 @@ services:
         networks:
             - backend_network
         restart: always
+    codeblog-database-56:
+        container_name: codeblog-database-56
+        build: ./${DB_56_SERVER_TYPE}
+        volumes:
+            - ./logs/db56:/var/log/mysql
+            - db56:/var/lib/mysql
+        ports:
+            - '${INTERFACE}:${DATABASE_56_PORT}:3306'
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        networks:
+            - backend_network
+        restart: always
     codeblog-memcached:
         container_name: codeblog-memcached
         image: memcached:1.6.12-alpine
@@ -102,6 +118,8 @@ services:
 
 volumes:
     db:
+        driver: local
+    db56:
         driver: local
     cache:
         driver: local

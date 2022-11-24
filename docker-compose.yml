@@ -56,8 +56,8 @@ services:
             - ./www/html:/var/www/html
             - ${SITE_PATH}:/var/www/bitrix
             - /etc/localtime:/etc/localtime/:ro
-        ports:
-            - '${INTERFACE}:${DATABASE_PORT}:3306'
+        #       ports: // hide for the external internet
+        #           - '${INTERFACE}:${DATABASE_PORT}:3306'
         environment:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
@@ -71,10 +71,11 @@ services:
         container_name: codeblog-database-56
         build: ./${DB_56_SERVER_TYPE}
         volumes:
+            - ./mysql56/my.cnf:/etc/mysql/conf.d/my.cnf
             - ./logs/db56:/var/log/mysql
             - db56:/var/lib/mysql
-        ports:
-            - '${INTERFACE}:${DATABASE_56_PORT}:3306'
+        #       ports: // hide for the external internet
+        #           - '${INTERFACE}:${DATABASE_56_PORT}:3306'
         environment:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
@@ -96,8 +97,8 @@ services:
             - ./www/html:/var/www/html
             - ${SITE_PATH}:/var/www/bitrix
             - /etc/localtime:/etc/localtime/:ro
-        ports:
-            - '${INTERFACE}:11211:11211'
+        #       ports: // hide for the external internet
+        #           - '${INTERFACE}:11211:11211'
         networks:
             - backend_network
         restart: always
